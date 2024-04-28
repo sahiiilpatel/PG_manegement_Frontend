@@ -1,19 +1,10 @@
 import PageHead from '@/components/shared/page-head';
-import { useGetStudents } from './queries/queries';
-import StudentsTable from './components/students-table';
-import { useSearchParams } from 'react-router-dom';
 import { DataTableSkeleton } from '@/components/shared/data-table-skeleton';
+import PgTable from './components/students-table';
+import { useGetPgList } from '../room/queries/queries';
 
 export default function UserPage() {
-  const [searchParams] = useSearchParams();
-  const page = Number(searchParams.get('page') || 1);
-  const pageLimit = Number(searchParams.get('limit') || 10);
-  const country = searchParams.get('search') || null;
-  const offset = (page - 1) * pageLimit;
-  const { data, isLoading } = useGetStudents(offset, pageLimit, country);
-  const users = data?.users;
-  const totalUsers = data?.total_users; //1000
-  const pageCount = Math.ceil(totalUsers / pageLimit);
+  const { data, isLoading } = useGetPgList();
 
   if (isLoading) {
     return (
@@ -30,12 +21,7 @@ export default function UserPage() {
   return (
     <div className="p-5">
       <PageHead title="Student Management | App" />
-      <StudentsTable
-        users={users}
-        page={page}
-        totalUsers={totalUsers}
-        pageCount={pageCount}
-      />
+      <PgTable pgList={data} />
     </div>
   );
 }

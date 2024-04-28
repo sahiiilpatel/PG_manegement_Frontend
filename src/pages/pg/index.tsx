@@ -1,13 +1,10 @@
 import PageHead from '@/components/shared/page-head';
-import { useGetPgList } from './queries/queries';
-import { useSearchParams } from 'react-router-dom';
 import { DataTableSkeleton } from '@/components/shared/data-table-skeleton';
-import StudentsTable from './components/room-table';
-import { BlurPage } from '@/components/blur/BlurPage';
+import PgTable from './components/students-table';
+import { useGetPgList } from '../room/queries/queries';
 
-export default function RoomPage() {
+export default function PgPage() {
   const { data, isLoading } = useGetPgList();
-  console.log(data, 'data11111111');
 
   if (isLoading) {
     return (
@@ -23,9 +20,8 @@ export default function RoomPage() {
 
   return (
     <div className="p-5">
-      <BlurPage />
-      {/* <PageHead title="Student Management | App" />
-      <StudentsTable pgList={data} /> */}
+      <PageHead title="Student Management | App" />
+      <PgTable pgList={data} />
     </div>
   );
 }

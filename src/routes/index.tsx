@@ -5,10 +5,10 @@ import NotFound from '@/pages/not-found';
 import DashboardLayout from '@/components/layout/dashboard-layout';
 import SignInPage from '@/pages/auth/signin';
 import DashboardPage from '@/pages/dashboard';
-import StudentPage from '@/pages/students';
 import StudentDetailPage from '@/pages/students/StudentDetailPage';
 import InpersuNate from '@/pages/inPersunate';
 import RoomPage from '@/pages/room';
+import PgPage from '@/pages/pg';
 import UserPage from '@/pages/user';
 
 // Simulated authentication check
@@ -47,9 +47,13 @@ export default function AppRouter() {
           element: <ProtectedRoute element={<DashboardPage />} />,
           index: true
         },
+        // {
+        //   path: 'pg1',
+        //   element: <ProtectedRoute element={<StudentPage />} />
+        // },
         {
           path: 'pg',
-          element: <ProtectedRoute element={<StudentPage />} />
+          element: <ProtectedRoute element={<PgPage />} />
         },
         {
           path: 'room',

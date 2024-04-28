@@ -18,6 +18,8 @@ import * as z from 'zod';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import FormFeedback from '@/components/errors/FormFeedback';
+import { useDispatch } from 'react-redux';
+import { setUserInfo } from '@/redux/slice/userSlice';
 
 const formSchema = z.object({
   email: z.string().email({ message: 'Enter a valid email address' }),
@@ -45,6 +47,7 @@ export default function UserAuthForm() {
 
   const [loading1, setLoading1] = useState<Boolean>(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   interface LoginData {
     email: string;
@@ -64,7 +67,7 @@ export default function UserAuthForm() {
         localStorage.setItem('accessToken', response.data.accessToken);
         localStorage.setItem('refreshToken', response.data.refreshToken);
         // notify("Login SuccessFully","success")
-        // dispatch(setUserInfo(response.data.user))
+        dispatch(setUserInfo(response.data.user));
         // dispatch(setAccessToken(response.data.accessToken))
         navigate('/');
         // formik.resetForm()

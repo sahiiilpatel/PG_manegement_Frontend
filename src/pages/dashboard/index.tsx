@@ -14,15 +14,17 @@ import {
 } from '@/components/ui/tabs.js';
 import Overview from './components/overview.js';
 import RecentSales from './components/recent-sales.js';
+import { useSelector } from 'react-redux';
 
 export default function DashboardPage() {
+  const user = useSelector((state: any) => state?.user.userInfo);
   return (
     <>
       <PageHead title="Dashboard | App" />
       <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
         <div className="flex items-center justify-between space-y-2">
           <h2 className="text-3xl font-bold tracking-tight">
-            Hi, Welcome back 👋
+            Hi, {user?.fullName || 'Welcome back'} 👋
           </h2>
         </div>
         <Tabs defaultValue="overview" className="space-y-4">

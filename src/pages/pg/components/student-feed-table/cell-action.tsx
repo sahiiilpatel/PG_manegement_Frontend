@@ -14,8 +14,6 @@ import { useState } from 'react';
 
 interface CellActionProps {
   data: Employee;
-  isOpen: any;
-  setIsOpen: any;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {

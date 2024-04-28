@@ -1,3 +1,4 @@
+import { logOut } from '@/api/auth/authApi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,8 +11,34 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { useNavigate } from 'react-router-dom';
 
 export default function UserNav() {
+  const navigate = useNavigate();
+
+  const handleLogOut = async () => {
+    // dispatch(startLoading())
+    try {
+      const payload = {};
+      const response = await logOut(payload);
+      console.log(response);
+      if (response.statusCode === 200) {
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        // dispatch(startLoading())
+        //   dispatch(clearAccessToken())
+        navigate('/login');
+      } else {
+        // dispatch(stopLoading())
+      }
+    } catch (error) {
+      // dispatch(stopLoading())
+      console.log(error);
+    } finally {
+      // dispatch(stopLoading())
+    }
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -53,7 +80,7 @@ export default function UserNav() {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => console.log('logout')}>
+        <DropdownMenuItem onClick={handleLogOut}>
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

@@ -5,25 +5,35 @@ export const navItems: NavItem[] = [
     title: 'Dashboard',
     href: '/',
     icon: 'dashboard',
-    label: 'Dashboard'
+    label: 'Dashboard',
+    protected: ['superadmin', 'pgowner', 'occupant']
   },
+  // {
+  //   title: 'Pg1',
+  //   href: '/pg1',
+  //   icon: 'user',
+  //   label: 'Pg1'
+  // },
   {
     title: 'Pg',
     href: '/pg',
     icon: 'user',
-    label: 'Pg'
+    label: 'Pg',
+    protected: ['superadmin', 'pgowner']
   },
   {
     title: 'Room',
     href: '/room',
     icon: 'user',
-    label: 'room'
+    label: 'room',
+    protected: ['superadmin', 'pgowner', 'occupant']
   },
   {
     title: 'User',
     href: '/user',
     icon: 'user',
-    label: 'user'
+    label: 'user',
+    protected: ['superadmin', 'pgOwner']
   }
   // {
   //   title: 'Login',

@@ -1,4 +1,4 @@
-import AddUser from '../addUser-form/AddUser';
+import AddPg from '../addPg-form/AddPg';
 
 type TStudentsTableProps = {
   pgList: any;
@@ -9,7 +9,7 @@ export default function PgTable({ pgList }: TStudentsTableProps) {
   return (
     <>
       {/* <StudentTableActions /> */}
-      <AddUser pgList={pgList} />
+      <AddPg pgList={pgList} />
     </>
   );
 }

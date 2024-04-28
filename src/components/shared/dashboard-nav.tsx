@@ -3,6 +3,7 @@ import { NavItem } from '@/types';
 import { Dispatch, SetStateAction } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Icons } from '../ui/icons';
+import { useSelector } from 'react-redux';
 
 type DashboardNavProps = {
   items: NavItem[];
@@ -45,15 +46,21 @@ const DashboardNavItem = ({ item, setOpen }: DashboardNavItemProps) => {
 };
 
 export default function DashboardNav({ items, setOpen }: DashboardNavProps) {
+  const user = useSelector((state: any) => state.user.userInfo); // Access user info
+  // const allowedRoutes = user?.role ? getAllowedRoutes(user.role) : []; // Get allowed routes based on role
+
   if (!items?.length) {
     return null;
   }
 
   return (
     <nav className="-mx-3 space-y-6">
-      {items.map((item) => (
-        <DashboardNavItem key={item.href} item={item} setOpen={setOpen} />
-      ))}
+      {items.map(
+        (item) =>
+          item.protected?.includes(user?.role) && (
+            <DashboardNavItem key={item.href} item={item} />
+          )
+      )}
     </nav>
   );
 }
