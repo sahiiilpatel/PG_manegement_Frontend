@@ -14,11 +14,23 @@ export const navItems: NavItem[] = [
     label: 'Pg'
   },
   {
-    title: 'Login',
-    href: '/login',
-    icon: 'login',
-    label: 'Login'
+    title: 'Room',
+    href: '/room',
+    icon: 'user',
+    label: 'room'
+  },
+  {
+    title: 'User',
+    href: '/user',
+    icon: 'user',
+    label: 'user'
   }
+  // {
+  //   title: 'Login',
+  //   href: '/login',
+  //   icon: 'login',
+  //   label: 'Login'
+  // }
 ];
 
 export const users = [

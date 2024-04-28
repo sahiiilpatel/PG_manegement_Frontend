@@ -8,6 +8,8 @@ import DashboardPage from '@/pages/dashboard';
 import StudentPage from '@/pages/students';
 import StudentDetailPage from '@/pages/students/StudentDetailPage';
 import InpersuNate from '@/pages/inPersunate';
+import RoomPage from '@/pages/room';
+import UserPage from '@/pages/user';
 
 // Simulated authentication check
 const isAuthenticated = () => {
@@ -48,6 +50,14 @@ export default function AppRouter() {
         {
           path: 'pg',
           element: <ProtectedRoute element={<StudentPage />} />
+        },
+        {
+          path: 'room',
+          element: <ProtectedRoute element={<RoomPage />} />
+        },
+        {
+          path: 'User',
+          element: <ProtectedRoute element={<UserPage />} />
         },
         {
           path: 'student/details',
