@@ -1,4 +1,5 @@
 import { NavItem } from '@/types';
+import { roleEnums } from '@/utils/enums/roleEnums';
 
 export const navItems: NavItem[] = [
   {
@@ -6,7 +7,7 @@ export const navItems: NavItem[] = [
     href: '/',
     icon: 'dashboard',
     label: 'Dashboard',
-    protected: ['superadmin', 'pgowner', 'occupant']
+    protected: [roleEnums.superAdmin, roleEnums.pgOwner, roleEnums.Occupant]
   },
   // {
   //   title: 'Pg1',
@@ -19,21 +20,21 @@ export const navItems: NavItem[] = [
     href: '/pg',
     icon: 'user',
     label: 'Pg',
-    protected: ['superadmin', 'pgowner']
+    protected: [roleEnums.pgOwner]
   },
   {
     title: 'Room',
     href: '/room',
     icon: 'user',
     label: 'room',
-    protected: ['superadmin', 'pgowner', 'occupant']
+    protected: [roleEnums.pgOwner]
   },
   {
     title: 'User',
     href: '/user',
     icon: 'user',
     label: 'user',
-    protected: ['superadmin', 'pgOwner']
+    protected: [roleEnums.pgOwner]
   }
   // {
   //   title: 'Login',

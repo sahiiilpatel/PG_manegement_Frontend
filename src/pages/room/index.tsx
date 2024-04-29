@@ -1,13 +1,15 @@
 import PageHead from '@/components/shared/page-head';
 import { useGetPgList } from './queries/queries';
-import { useSearchParams } from 'react-router-dom';
 import { DataTableSkeleton } from '@/components/shared/data-table-skeleton';
 import StudentsTable from './components/room-table';
 import { BlurPage } from '@/components/blur/BlurPage';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import { roleEnums } from '@/utils/enums/roleEnums';
 
 export default function RoomPage() {
   const { data, isLoading } = useGetPgList();
-  console.log(data, 'data11111111');
+  const user = useSelector((state: any) => state?.user?.userInfo);
 
   if (isLoading) {
     return (
@@ -23,7 +25,18 @@ export default function RoomPage() {
 
   return (
     <div className="p-5">
-      <BlurPage />
+      {user?.role === roleEnums.pgOwner ? (
+        user?.subscription?.isActive ? (
+          <>
+            <PageHead title="Student Management | App" />
+            <StudentsTable pgList={data} />
+          </>
+        ) : (
+          <BlurPage />
+        )
+      ) : (
+        <Navigate to="/404" />
+      )}
       {/* <PageHead title="Student Management | App" />
       <StudentsTable pgList={data} /> */}
     </div>

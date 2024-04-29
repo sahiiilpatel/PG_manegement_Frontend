@@ -32,7 +32,7 @@ export const BlurPage = (props: any) => {
   return (
     <div>
       <Heading
-        title={'Please Subcribe Plane To Access This Page'}
+        title={'Please Subscribe Plane To Access This Page'}
         className="space-y-2 py-4 text-center"
       />
       <div className="flex items-center justify-center gap-4 py-5">

@@ -33,9 +33,10 @@ import {
   DialogTitle
 } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
-import { useRoomListQuery } from '@/pages/room/queries/queries';
+import { useGetPgList, useRoomListQuery } from '@/pages/room/queries/queries';
 import { CellAction } from '../students-table/cell-action';
 import { addUser } from '@/api/user/userApi';
+import { Plus } from 'lucide-react';
 
 const studentFormSchema = z.object({
   fullName: z.string().min(1, { message: 'fullName is required' }),
@@ -71,18 +72,12 @@ const AddUser = ({
 }) => {
   const [selectedType, setSelectedType] =
     useState<React.Dispatch<React.SetStateAction<string>>>();
-  const [selectedValue, setSelectedValue] = useState<any>(null);
-  const [selectedValuePg, setSelectedValuePg] = useState<
-    React.Dispatch<React.SetStateAction<undefined>> | any
-  >();
-  const [activeTab, setActiveTab] = useState<string>('1');
-  const { data, isLoading }: any = useRoomListQuery(
-    activeTab,
-    selectedValuePg?._id
-  );
+  const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<any>(null);
+  const { data, isLoading }: any = useGetPgList();
+
   const { toast } = useToast();
 
   const onClose = () => {
@@ -176,263 +171,67 @@ const AddUser = ({
     }
   };
 
-  const handleTabChange = (value: string) => {
-    setActiveTab(value);
-  };
   return (
     <div className="px-2">
       {/* <Heading
-                title={selectedValue?.pgName}
-                className="space-y-2 py-4 text-center"
-            /> */}
-
-      <Tabs defaultValue={activeTab}>
-        <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="1" onClick={() => handleTabChange('1')}>
-            Add User
-          </TabsTrigger>
-          <TabsTrigger value="2" onClick={() => handleTabChange('2')}>
-            User List
-          </TabsTrigger>
-        </TabsList>
-        <TabsContent value="1">
-          <Heading title={'Add User'} className="space-y-2 py-4 text-left" />
-          {/* <StudentTableActions
-            selectedValue={selectedValue}
-            setSelectedValue={setSelectedValue}
-            pgList={pgList}
+              title={selectedValue?.pgName}
+              className="space-y-2 py-4 text-center"
           /> */}
-          {loading ? (
-            <div className="flex items-center justify-center">
-              <ClipLoader color="#ffffff" />
-            </div>
-          ) : (
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
-              >
-                {/* <FormField
-                            control={form.control}
-                            name="file"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Profile</FormLabel>
-                                <FormControl>
-                                    <FileUpload onChange={field.onChange} value={field.value} />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                            /> */}
-                <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                  <FormField
-                    control={form.control}
-                    name="fullName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter your fullName"
-                            {...field}
-                            className="px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter email"
-                            {...field}
-                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  {/* <FormField
-                            // control={form.control}
-                            // name="roomType"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormControl> */}
-                  <Select
-                    onValueChange={(e: any) => {
-                      setSelectedType(e);
-                    }}
-                  >
-                    <SelectTrigger className=" px-4 py-6 shadow-inner drop-shadow-xl">
-                      <SelectValue placeholder="Select gender" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="male">Male</SelectItem>
-                        <SelectItem value="female">Female</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  {/* </FormControl>
-                                    <FormMessage />
-                                </FormItem> */}
-                  {/* )} */}
-                  {/* /> */}
-                  <FormField
-                    control={form.control}
-                    name="age"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter age"
-                            {...field}
-                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="password"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter password"
-                            type="password"
-                            {...field}
-                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="phoneNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter phone Number"
-                            {...field}
-                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="emergencyContactName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter emergency Contact Name"
-                            {...field}
-                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="emergencyContactNo"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter emergency ContactNo"
-                            {...field}
-                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="flex items-center justify-center gap-4">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="rounded-full "
-                    size="lg"
-                    onClick={() => {
-                      setSelectedValue(null);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit" className="rounded-full" size="lg">
-                    Add User
-                  </Button>
-                </div>
-              </form>
-            </Form>
-          )}
-        </TabsContent>
-        <TabsContent value="2">
-          <Heading
-            title={'List Room By Pg'}
-            className="space-y-2 py-4 text-left"
+      <div className="flex items-center justify-between py-5">
+        <div className="flex flex-1 gap-4">
+          <Input
+            placeholder={`search value`}
+            value={searchTerm}
+            onChange={(event) => setSearchTerm(event.target.value)}
+            className="w-full md:max-w-sm"
           />
           <Select
             onValueChange={(e: any) => {
-              setSelectedValuePg(e);
+              setSelectedType(e);
             }}
           >
-            <SelectTrigger className="px-4 py-6 shadow-inner drop-shadow-xl">
-              <SelectValue placeholder={'select Pg'} />
+            <SelectTrigger className="w-[180px] shadow-inner drop-shadow-xl">
+              <SelectValue placeholder="Select Pg type" />
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
-                {pgList?.data?.list?.map((res: any) => {
-                  return <SelectItem value={res}>{res?.pgName}</SelectItem>;
-                })}
-                {/* <SelectLabel>Fruits</SelectLabel> */}
+                <SelectItem value="only boys">Only Boys</SelectItem>
+                <SelectItem value="only girls">Only Girls</SelectItem>
+                <SelectItem value="any">Boys and Girls</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
-          {/* <StudentTableActions selectedValue={selectedValuePg} setSelectedValue={setSelectedValuePg} pgList={pgList} /> */}
-          {!isLoading ? (
-            // selectedValuePg &&
-            data?.data?.length > 0 ? (
-              <DataTable
-                columns={columns}
-                data={pgList?.data?.list}
-                pageCount={1}
-              />
-            ) : (
-              <p>No Data Found</p>
-            )
-          ) : (
-            <div className="p-5">
-              <DataTableSkeleton
-                columnCount={10}
-                filterableColumnCount={2}
-                searchableColumnCount={1}
-              />
-            </div>
-          )}
-        </TabsContent>
-      </Tabs>
+        </div>
+        <div className="flex gap-3">
+          <Button
+            className="text-xs md:text-sm"
+            onClick={() => setIsOpen(true)}
+          >
+            <Plus className="mr-2 h-4 w-4" /> Add Pg
+          </Button>
+        </div>
+      </div>
+
+      {!isLoading ? (
+        // selectedValuePg &&
+        pgList?.data?.list?.length > 0 ? (
+          <DataTable
+            columns={columns}
+            data={pgList?.data?.list}
+            pageCount={1}
+          />
+        ) : (
+          <p>No Data Found</p>
+        )
+      ) : (
+        <div className="p-5">
+          <DataTableSkeleton
+            columnCount={10}
+            filterableColumnCount={2}
+            searchableColumnCount={1}
+          />
+        </div>
+      )}
 
       <Dialog
         open={isOpen}
@@ -450,119 +249,191 @@ const AddUser = ({
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
-              >
-                {/* <FormField
-                    control={form.control}
-                    name="file"
-                    render={({ field }) => (
-                        <FormItem>
-                        <FormLabel>Profile</FormLabel>
-                        <FormControl>
-                            <FileUpload onChange={field.onChange} value={field.value} />
-                        </FormControl>
-                        <FormMessage />
-                        </FormItem>
-                    )}
-                    /> */}
-                <div className="grid grid-cols-2 gap-x-8 gap-y-4">
-                  <FormField
-                    control={form.control}
-                    name="roomNumber"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter your room Number"
-                            {...field}
-                            className="px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+            {loading ? (
+              <div className="flex items-center justify-center">
+                <ClipLoader color="#ffffff" />
+              </div>
+            ) : (
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
                   {/* <FormField
-                    // control={form.control}
-                    // name="roomType"
-                    render={({ field }) => (
+                            control={form.control}
+                            name="file"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Profile</FormLabel>
+                                <FormControl>
+                                    <FileUpload onChange={field.onChange} value={field.value} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            /> */}
+                  <div className="grid grid-cols-2 gap-x-8 gap-y-4">
+                    <FormField
+                      control={form.control}
+                      name="fullName"
+                      render={({ field }) => (
                         <FormItem>
-                            <FormControl> */}
-                  <Select
-                    onValueChange={(e: any) => {
-                      setSelectedType(e);
-                    }}
-                  >
-                    <SelectTrigger className=" px-4 py-6 shadow-inner drop-shadow-xl">
-                      <SelectValue placeholder="Select room type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectGroup>
-                        <SelectItem value="AC">AC</SelectItem>
-                        <SelectItem value="NON-AC">NON AC</SelectItem>
-                      </SelectGroup>
-                    </SelectContent>
-                  </Select>
-                  {/* </FormControl>
-                            <FormMessage />
-                        </FormItem> */}
-                  {/* )} */}
-                  {/* /> */}
-                  <FormField
-                    control={form.control}
-                    name="bedCount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter your bed count"
-                            {...field}
-                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="rentAmount"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Input
-                            placeholder="Enter your rent amount"
-                            {...field}
-                            className=" px-4 py-6 shadow-inner drop-shadow-xl"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter your fullName"
+                              {...field}
+                              className="px-4 py-6 shadow-inner drop-shadow-xl"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter email"
+                              {...field}
+                              className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    {/* <FormField
+                            // control={form.control}
+                            // name="roomType"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormControl> */}
+                    <Select
+                      onValueChange={(e: any) => {
+                        setSelectedType(e);
+                      }}
+                    >
+                      <SelectTrigger className=" px-4 py-6 shadow-inner drop-shadow-xl">
+                        <SelectValue placeholder="Select gender" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectItem value="male">Male</SelectItem>
+                          <SelectItem value="female">Female</SelectItem>
+                          <SelectItem value="other">Other</SelectItem>
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    {/* </FormControl>
+                                    <FormMessage />
+                                </FormItem> */}
+                    {/* )} */}
+                    {/* /> */}
+                    <FormField
+                      control={form.control}
+                      name="age"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter age"
+                              {...field}
+                              className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter password"
+                              type="password"
+                              {...field}
+                              className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="phoneNumber"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter phone Number"
+                              {...field}
+                              className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="emergencyContactName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter emergency Contact Name"
+                              {...field}
+                              className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="emergencyContactNo"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter emergency ContactNo"
+                              {...field}
+                              className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
 
-                <div className="flex items-center justify-center gap-4">
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="rounded-full "
-                    size="lg"
-                    onClick={() => {
-                      setIsOpen(false);
-                    }}
-                  >
-                    Cancel
-                  </Button>
-                  <Button type="submit" className="rounded-full" size="lg">
-                    Edit Room
-                  </Button>
-                </div>
-              </form>
-            </Form>
+                  <div className="flex items-center justify-center gap-4">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      className="rounded-full "
+                      size="lg"
+                      onClick={() => {
+                        setIsOpen(false);
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button type="submit" className="rounded-full" size="lg">
+                      Add User
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            )}
           </div>
         </DialogContent>
       </Dialog>
