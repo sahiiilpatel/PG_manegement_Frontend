@@ -10,6 +10,7 @@ import InpersuNate from '@/pages/inPersunate';
 import RoomPage from '@/pages/room';
 import PgPage from '@/pages/pg';
 import UserPage from '@/pages/user';
+import BedPage from '@/pages/bed';
 
 // Simulated authentication check
 const isAuthenticated = () => {
@@ -62,6 +63,10 @@ export default function AppRouter() {
         {
           path: 'User',
           element: <ProtectedRoute element={<UserPage />} />
+        },
+        {
+          path: 'Bed',
+          element: <ProtectedRoute element={<BedPage />} />
         },
         {
           path: 'student/details',

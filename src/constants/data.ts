@@ -35,6 +35,13 @@ export const navItems: NavItem[] = [
     icon: 'user',
     label: 'user',
     protected: [roleEnums.pgOwner]
+  },
+  {
+    title: 'Bed',
+    href: '/bed',
+    icon: 'user',
+    label: 'bed',
+    protected: [roleEnums.pgOwner]
   }
   // {
   //   title: 'Login',

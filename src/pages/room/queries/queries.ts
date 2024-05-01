@@ -1,9 +1,12 @@
+import { getBedList } from '@/api/bed/bedAp';
 import { getPgList } from '@/api/pg/pgApi';
 import {
   getRoomList,
   getRoomListByPgId,
   getRoomListByRoomId
 } from '@/api/room/roomApi';
+import { getSubscriptionPlanList } from '@/api/subscription/subscription';
+import { listUser } from '@/api/user/userApi';
 import { roleEnums } from '@/utils/enums/roleEnums';
 import { useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
@@ -14,6 +17,51 @@ export const useGetPgList = () => {
     return useQuery({
       queryKey: ['pgList'],
       queryFn: async () => getPgList()
+    });
+  } else {
+    return {
+      data: [],
+      isloading: false
+    };
+  }
+};
+
+export const useGetUserList = () => {
+  const user = useSelector((state: any) => state?.user?.userInfo);
+  if (user?.role === roleEnums.pgOwner && user?.subscription?.isActive) {
+    return useQuery({
+      queryKey: ['userList'],
+      queryFn: async () => listUser()
+    });
+  } else {
+    return {
+      data: [],
+      isloading: false
+    };
+  }
+};
+
+export const useGetBedList = () => {
+  const user = useSelector((state: any) => state?.user?.userInfo);
+  if (user?.role === roleEnums.pgOwner && user?.subscription?.isActive) {
+    return useQuery({
+      queryKey: ['bedList'],
+      queryFn: async () => getBedList()
+    });
+  } else {
+    return {
+      data: [],
+      isloading: false
+    };
+  }
+};
+
+export const useGetSubscriptionList = () => {
+  const user = useSelector((state: any) => state?.user?.userInfo);
+  if (user?.role === roleEnums.pgOwner && !user?.subscription?.isActive) {
+    return useQuery({
+      queryKey: ['subscriptionList'],
+      queryFn: async () => getSubscriptionPlanList()
     });
   } else {
     return {

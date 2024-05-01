@@ -36,6 +36,17 @@ import { useToast } from '@/components/ui/use-toast';
 import { CellAction } from '../students-table/cell-action';
 import { addUser } from '@/api/user/userApi';
 import { Plus } from 'lucide-react';
+import { formatDate } from 'date-fns';
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger
+} from '@/components/ui/drawer';
 
 const studentFormSchema = z.object({
   fullName: z.string().min(1, { message: 'fullName is required' }),
@@ -60,28 +71,29 @@ const studentFormSchema = z.object({
 
 type StudentFormSchemaType = z.infer<typeof studentFormSchema>;
 
-const AddUser = ({
+const AddBed = ({
   // selectedValue,
   // setSelectedValue,
-  userList,
+  bedList,
   isLoading
 }: {
   // selectedValue: any;
   // setSelectedValue: any;
-  userList: any;
+  bedList: any;
   isLoading: boolean;
 }) => {
   const [selectedType, setSelectedType] =
     useState<React.Dispatch<React.SetStateAction<string>>>();
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpneDrawer, setIsOpenDrawer] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<any>(null);
 
   const { toast } = useToast();
 
-  const onClose = () => {
-    setIsOpen(false);
+  const handleCloseDrawer = () => {
+    setIsOpenDrawer(false);
   };
 
   const columns: ColumnDef<any>[] = [
@@ -105,32 +117,72 @@ const AddUser = ({
     //   enableHiding: false
     // },
     {
-      accessorKey: 'fullName',
-      header: 'Full Name'
+      accessorKey: 'pgName',
+      header: 'Pg Name',
+      cell: ({ row }) => {
+        console.log(row);
+        return row.original.pgName ? <p>{row.original.pgName}</p> : <>--</>;
+      }
     },
     {
-      accessorKey: 'email',
-      header: 'Email'
+      accessorKey: 'roomNumber',
+      header: 'Room Number',
+      cell: ({ row }) => {
+        console.log(row);
+        return row.original.roomNumber ? (
+          <p>{row.original.roomNumber}</p>
+        ) : (
+          <>--</>
+        );
+      }
     },
     {
-      accessorKey: 'phoneNumber',
-      header: 'Contact'
+      accessorKey: 'occupantName',
+      header: 'Occupant Name',
+      cell: ({ row }) => {
+        console.log(row);
+        return row.original.occupantName ? (
+          <p>{row.original.occupantName}</p>
+        ) : (
+          <>--</>
+        );
+      }
     },
     {
-      accessorKey: 'gender',
-      header: 'Gender'
+      accessorKey: 'checkInDate',
+      header: 'Check In Date',
+      cell: ({ row }) => {
+        console.log(row);
+        return row.original.checkInDate ? (
+          <p>{formatDate(row.original.checkInDate, 'dd-MM-yyyy')}</p>
+        ) : (
+          <>--</>
+        );
+      }
     },
     {
-      accessorKey: 'emergencyContactName',
-      header: 'Emergency Contact Name'
+      accessorKey: 'depositAmount',
+      header: 'Deposit Amount',
+      cell: ({ row }) => {
+        console.log(row);
+        return row.original.depositAmount ? (
+          <p>{row.original.depositAmount}</p>
+        ) : (
+          <>--</>
+        );
+      }
     },
     {
-      accessorKey: 'emergencyContactNo',
-      header: 'Emergency Contact No'
-    },
-    {
-      accessorKey: 'age',
-      header: 'Age'
+      accessorKey: 'pendingRentAmount',
+      header: 'Pending Rent Amount',
+      cell: ({ row }) => {
+        console.log(row);
+        return row.original.pendingRentAmount ? (
+          <p>{row.original.pendingRentAmount}</p>
+        ) : (
+          <>--</>
+        );
+      }
     },
     {
       id: 'actions',
@@ -141,6 +193,8 @@ const AddUser = ({
             isOpen={isOpen}
             setIsOpen={setIsOpen}
             data={row.original}
+            isOpenDrawer={isOpneDrawer}
+            setIsOpenDrawer={setIsOpenDrawer}
           />
         );
       }
@@ -226,10 +280,10 @@ const AddUser = ({
 
       {!isLoading ? (
         // selectedValuePg &&
-        userList?.data?.list?.length > 0 ? (
+        bedList?.data?.list?.length > 0 ? (
           <DataTable
             columns={columns}
-            data={userList?.data?.list}
+            data={bedList?.data?.list}
             pageCount={1}
           />
         ) : (
@@ -449,8 +503,38 @@ const AddUser = ({
           </div>
         </DialogContent>
       </Dialog>
+      <Drawer open={isOpneDrawer} onClose={handleCloseDrawer}>
+        <DrawerContent>
+          <div className="mx-auto w-full max-w-sm">
+            <DrawerHeader>
+              <DrawerTitle>Move Goal</DrawerTitle>
+              <DrawerDescription>
+                Set your daily activity goal.
+              </DrawerDescription>
+            </DrawerHeader>
+            <div className="p-4 pb-0">
+              <div className="flex items-center justify-center space-x-2">
+                thia is drawer
+              </div>
+            </div>
+            <DrawerFooter>
+              <Button>Submit</Button>
+              <DrawerClose asChild>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setIsOpenDrawer(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </div>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 };
 
-export default AddUser;
+export default AddBed;
