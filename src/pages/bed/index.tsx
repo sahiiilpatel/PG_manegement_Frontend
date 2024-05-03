@@ -1,6 +1,6 @@
 import PageHead from '@/components/shared/page-head';
 import { DataTableSkeleton } from '@/components/shared/data-table-skeleton';
-import { useGetBedList } from '../room/queries/queries';
+import { useGetBedList, useUserListUnAssign } from '../room/queries/queries';
 import { useSelector } from 'react-redux';
 import { BlurPage } from '@/components/blur/BlurPage';
 import { Navigate } from 'react-router-dom';
@@ -10,10 +10,12 @@ import BedTable from './components/students-table';
 export default function BedPage() {
   // const { data, isLoading } = useGetPgList();
   const { data, isLoading } = useGetBedList();
+  const { data: dataUserUnAssign, isLoading: isLoadinhUnAssign } =
+    useUserListUnAssign();
 
   const user = useSelector((state: any) => state?.user?.userInfo);
 
-  if (isLoading) {
+  if (isLoading || isLoadinhUnAssign) {
     return (
       <div className="p-5">
         <DataTableSkeleton
@@ -31,7 +33,11 @@ export default function BedPage() {
         user?.subscription?.isActive ? (
           <>
             <PageHead title="Student Management | App" />
-            <BedTable bedList={data} isLoading={isLoading} />
+            <BedTable
+              bedList={data}
+              isLoading={isLoading}
+              userListUnAssign={dataUserUnAssign}
+            />
           </>
         ) : (
           <BlurPage />

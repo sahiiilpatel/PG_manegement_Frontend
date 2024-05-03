@@ -219,7 +219,7 @@ const AddUser = ({
             className="text-xs md:text-sm"
             onClick={() => setIsOpen(true)}
           >
-            <Plus className="mr-2 h-4 w-4" /> Add Pg
+            <Plus className="mr-2 h-4 w-4" /> Add User
           </Button>
         </div>
       </div>

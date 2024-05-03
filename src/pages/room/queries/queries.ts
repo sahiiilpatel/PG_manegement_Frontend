@@ -1,4 +1,5 @@
-import { getBedList } from '@/api/bed/bedAp';
+import { getBedList } from '@/api/bed/bedApi';
+import { dashBoardApi } from '@/api/dashboard/dashboard';
 import { getPgList } from '@/api/pg/pgApi';
 import {
   getRoomList,
@@ -6,7 +7,7 @@ import {
   getRoomListByRoomId
 } from '@/api/room/roomApi';
 import { getSubscriptionPlanList } from '@/api/subscription/subscription';
-import { listUser } from '@/api/user/userApi';
+import { listUser, listUserUnAssign } from '@/api/user/userApi';
 import { roleEnums } from '@/utils/enums/roleEnums';
 import { useQuery } from '@tanstack/react-query';
 import { useSelector } from 'react-redux';
@@ -32,6 +33,21 @@ export const useGetUserList = () => {
     return useQuery({
       queryKey: ['userList'],
       queryFn: async () => listUser()
+    });
+  } else {
+    return {
+      data: [],
+      isloading: false
+    };
+  }
+};
+
+export const useUserListUnAssign = () => {
+  const user = useSelector((state: any) => state?.user?.userInfo);
+  if (user?.role === roleEnums.pgOwner && user?.subscription?.isActive) {
+    return useQuery({
+      queryKey: ['userList'],
+      queryFn: async () => listUserUnAssign()
     });
   } else {
     return {
@@ -92,6 +108,21 @@ export const useGetRoomList = () => {
     return useQuery({
       queryKey: ['roomList'],
       queryFn: async () => getRoomList()
+    });
+  } else {
+    return {
+      data: [],
+      isloading: false
+    };
+  }
+};
+
+export const useGetDashboardList = () => {
+  const user = useSelector((state: any) => state?.user?.userInfo);
+  if (user?.role === roleEnums.pgOwner && user?.subscription?.isActive) {
+    return useQuery({
+      queryKey: ['dashboardList'],
+      queryFn: async () => dashBoardApi()
     });
   } else {
     return {

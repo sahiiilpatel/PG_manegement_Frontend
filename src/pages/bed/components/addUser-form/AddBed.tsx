@@ -17,7 +17,6 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ToastAction } from '@/components/ui/toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
@@ -38,57 +37,42 @@ import { addUser } from '@/api/user/userApi';
 import { Plus } from 'lucide-react';
 import { formatDate } from 'date-fns';
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger
-} from '@/components/ui/drawer';
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle
+} from '@/components/ui/sheet';
+import { assignBed } from '@/api/bed/bedApi';
 
-const studentFormSchema = z.object({
-  fullName: z.string().min(1, { message: 'fullName is required' }),
-  email: z
-    .string()
-    .email('email is not valid')
-    .min(1, { message: 'email is required' }),
-  age: z.string().min(1, { message: 'age is required' }),
-  password: z
-    .string()
-    .min(8, 'Password must be at least 8 characters long')
-    // .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/, 'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character')
-    .min(1, { message: 'password is required' }),
-  phoneNumber: z.string().min(1, { message: 'phoneNumber is required' }),
-  emergencyContactName: z
-    .string()
-    .min(1, { message: 'emergencyContactName is required' }),
-  emergencyContactNo: z
-    .string()
-    .min(1, { message: 'emergencyContactNo is required' })
+const bedFormSchema = z.object({
+  rentAmount: z.string().min(1, { message: 'Rent Amount is required' }),
+  depositeAmount: z.string().min(1, { message: 'Deposite Amount is required' })
 });
 
-type StudentFormSchemaType = z.infer<typeof studentFormSchema>;
+type BedFormSchemaType = z.infer<typeof bedFormSchema>;
 
 const AddBed = ({
   // selectedValue,
   // setSelectedValue,
   bedList,
-  isLoading
+  isLoading,
+  userListUnAssign
 }: {
   // selectedValue: any;
   // setSelectedValue: any;
   bedList: any;
   isLoading: boolean;
+  userListUnAssign;
 }) => {
   const [selectedType, setSelectedType] =
-    useState<React.Dispatch<React.SetStateAction<string>>>();
+    useState<React.Dispatch<React.SetStateAction<string>>>('');
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpneDrawer, setIsOpenDrawer] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<any>(null);
+  const [selectedBedRow, setSelectedBedRow] = useState<any>(null);
 
   const { toast } = useToast();
 
@@ -195,27 +179,29 @@ const AddBed = ({
             data={row.original}
             isOpenDrawer={isOpneDrawer}
             setIsOpenDrawer={setIsOpenDrawer}
+            setSelectedBedRow={setSelectedBedRow}
           />
         );
       }
     }
   ];
 
-  const form = useForm<StudentFormSchemaType>({
-    resolver: zodResolver(studentFormSchema),
+  const form = useForm<BedFormSchemaType>({
+    resolver: zodResolver(bedFormSchema),
     defaultValues: {}
   });
 
-  const onSubmit = async (values: StudentFormSchemaType) => {
+  const onSubmit = async (values: BedFormSchemaType) => {
     console.log(values, 'values');
     try {
       setLoading(true);
-      const response = await addUser({
+      const response = await assignBed(selectedBedRow._id, {
         ...values,
-        gender: selectedType
+        occupantId: selectedType
       });
       console.log(response, 'response11111');
       if (response.statuCode === 200) {
+        handleCloseDrawer();
         toast({
           variant: 'default',
           title: `${response?.message}`
@@ -268,14 +254,14 @@ const AddBed = ({
             </SelectContent>
           </Select>
         </div>
-        <div className="flex gap-3">
+        {/* <div className="flex gap-3">
           <Button
             className="text-xs md:text-sm"
             onClick={() => setIsOpen(true)}
           >
-            <Plus className="mr-2 h-4 w-4" /> Add Pg
+            <Plus className="mr-2 h-4 w-4" /> Add Bed
           </Button>
-        </div>
+        </div> */}
       </div>
 
       {!isLoading ? (
@@ -494,7 +480,7 @@ const AddBed = ({
                       Cancel
                     </Button>
                     <Button type="submit" className="rounded-full" size="lg">
-                      Add User
+                      Add Bed
                     </Button>
                   </div>
                 </form>
@@ -503,36 +489,124 @@ const AddBed = ({
           </div>
         </DialogContent>
       </Dialog>
-      <Drawer open={isOpneDrawer} onClose={handleCloseDrawer}>
-        <DrawerContent>
-          <div className="mx-auto w-full max-w-sm">
-            <DrawerHeader>
-              <DrawerTitle>Move Goal</DrawerTitle>
-              <DrawerDescription>
-                Set your daily activity goal.
-              </DrawerDescription>
-            </DrawerHeader>
-            <div className="p-4 pb-0">
-              <div className="flex items-center justify-center space-x-2">
-                thia is drawer
-              </div>
-            </div>
-            <DrawerFooter>
-              <Button>Submit</Button>
-              <DrawerClose asChild>
-                <Button
-                  variant="outline"
-                  onClick={() => {
-                    setIsOpenDrawer(false);
-                  }}
+      <Sheet open={isOpneDrawer} onOpenChange={handleCloseDrawer}>
+        <SheetContent>
+          <SheetHeader>
+            <SheetTitle>Assign Bed</SheetTitle>
+            <SheetDescription>
+              <Form {...form}>
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
                 >
-                  Cancel
-                </Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </div>
-        </DrawerContent>
-      </Drawer>
+                  {/* <FormField
+                            control={form.control}
+                            name="file"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel>Profile</FormLabel>
+                                <FormControl>
+                                    <FileUpload onChange={field.onChange} value={field.value} />
+                                </FormControl>
+                                <FormMessage />
+                                </FormItem>
+                            )}
+                            /> */}
+                  <div className="flex flex-col justify-center gap-4 py-6">
+                    <Select
+                      onValueChange={(e: any) => {
+                        setSelectedType(e);
+                      }}
+                    >
+                      <SelectTrigger className=" px-4 py-6 shadow-inner drop-shadow-xl">
+                        <SelectValue placeholder="Select user" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectGroup>
+                          {userListUnAssign?.data?.length > 0 ? (
+                            userListUnAssign?.data?.map((res: any) => {
+                              return (
+                                <SelectItem value={res?._id}>
+                                  {res?.fullName}
+                                </SelectItem>
+                              );
+                            })
+                          ) : (
+                            <SelectItem value={null} disabled>
+                              {' '}
+                              No Data Found
+                            </SelectItem>
+                          )}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <FormField
+                      control={form.control}
+                      name="rentAmount"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter Rent Amount"
+                              {...field}
+                              className="px-4 py-6 shadow-inner drop-shadow-xl"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="depositeAmount"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter Deposite Amount"
+                              {...field}
+                              className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  {loading ? (
+                    <div className="flex items-center justify-center gap-4">
+                      <Button
+                        type="submit"
+                        className="w-screen rounded-full"
+                        size="lg"
+                      >
+                        <ClipLoader className="text-sm" color="#000000" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center gap-4">
+                      {' '}
+                      <Button
+                        type="button"
+                        variant="secondary"
+                        className="rounded-full "
+                        size="lg"
+                        onClick={handleCloseDrawer}
+                      >
+                        Cancel
+                      </Button>
+                      <Button type="submit" className="rounded-full" size="lg">
+                        Assign Room
+                      </Button>
+                    </div>
+                  )}
+                </form>
+              </Form>
+            </SheetDescription>
+          </SheetHeader>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 };

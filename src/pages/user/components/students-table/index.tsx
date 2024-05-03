@@ -5,11 +5,11 @@ type TStudentsTableProps = {
   isLoading: boolean;
 };
 
-export default function PgTable({ userList }: TStudentsTableProps) {
+export default function PgTable({ userList, isLoading }: TStudentsTableProps) {
   return (
     <>
       {/* <StudentTableActions /> */}
-      <AddUser userList={userList} />
+      <AddUser userList={userList} isLoading={isLoading} />
     </>
   );
 }

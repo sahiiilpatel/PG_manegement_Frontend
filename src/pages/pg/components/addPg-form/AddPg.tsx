@@ -273,7 +273,7 @@ const AddPg = ({
                         <FormItem>
                           <FormControl>
                             <Input
-                              placeholder="Enter your room Number"
+                              placeholder="Enter your Pg Name"
                               {...field}
                               className="px-4 py-6 shadow-inner drop-shadow-xl"
                             />

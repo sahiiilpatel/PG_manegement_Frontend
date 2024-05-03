@@ -1,7 +1,9 @@
 import { impersonateLogin } from '@/api/auth/authApi';
 import { ToastAction } from '@/components/ui/toast';
 import { useToast } from '@/components/ui/use-toast';
+import { setUserInfo } from '@/redux/slice/userSlice';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function InpersuNate() {
@@ -9,6 +11,7 @@ export default function InpersuNate() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const dispatch = useDispatch();
   // interface LoginPayload{
   //   fullName : string,
   //   email : string,
@@ -33,7 +36,7 @@ export default function InpersuNate() {
         localStorage.setItem('accessToken', response.data.accessToken);
         localStorage.setItem('refreshToken', response.data.refreshToken);
         // notify("Login SuccessFully","success")
-        // dispatch(setUserInfo(response.data.user))
+        dispatch(setUserInfo(response.data.user));
         // dispatch(setAccessToken(response.data.accessToken))
         navigate('/');
         // formik.resetForm()

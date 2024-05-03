@@ -62,7 +62,8 @@ const studentFormSchema = z.object({
   roomNumber: z.string().min(1, { message: 'RoomNumber is required' }),
   // roomType: z.string().no min(1, { message: 'RoomType is required' }),
   bedCount: z.string().min(1, { message: 'Bed Count is required' }),
-  rentAmount: z.string().min(1, { message: 'Rent Amount is required' })
+  rentAmount: z.string().min(1, { message: 'Rent Amount is required' }),
+  depositeAmount: z.string().min(1, { message: 'Deposite Amount is required' })
 });
 
 type StudentFormSchemaType = z.infer<typeof studentFormSchema>;
@@ -297,6 +298,22 @@ const AddRoom = ({
                       <FormControl>
                         <Input
                           placeholder="Enter your rent amount"
+                          {...field}
+                          className=" px-4 py-6 shadow-inner drop-shadow-xl"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="depositeAmount"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          placeholder="Enter your Deposite amount"
                           {...field}
                           className=" px-4 py-6 shadow-inner drop-shadow-xl"
                         />

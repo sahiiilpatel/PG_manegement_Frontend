@@ -18,6 +18,7 @@ interface CellActionProps {
   setIsOpen: any;
   isOpenDrawer: any;
   setIsOpenDrawer: any;
+  setSelectedBedRow: any;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({
@@ -25,7 +26,8 @@ export const CellAction: React.FC<CellActionProps> = ({
   isOpen,
   setIsOpen,
   isOpenDrawer,
-  setIsOpenDrawer
+  setIsOpenDrawer,
+  setSelectedBedRow
 }) => {
   const [loading] = useState(false);
   const [open, setOpen] = useState(false);
@@ -53,6 +55,7 @@ export const CellAction: React.FC<CellActionProps> = ({
           <DropdownMenuItem
             onClick={() => {
               setIsOpenDrawer(true);
+              setSelectedBedRow(data);
             }}
           >
             <Edit className="mr-2 h-4 w-4" /> Assign Bed
