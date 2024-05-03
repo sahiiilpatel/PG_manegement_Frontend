@@ -103,7 +103,9 @@ const AddRoom = ({
     selectedValueRoom?._id
   );
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<any>(null);
+  // const [selectedRow, setSelectedRow] = useState<any>(null);
+  // console.log('selectedRow: ', selectedRow);
+  const [_, setSelectedRow] = useState<any>(null);
 
   // const onClose = () => {
   //   setIsOpen(false);

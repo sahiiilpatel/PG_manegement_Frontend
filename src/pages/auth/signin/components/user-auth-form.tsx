@@ -30,6 +30,7 @@ type UserFormValue = z.infer<typeof formSchema>;
 
 export default function UserAuthForm() {
   const router = useRouter();
+  console.log('router: ', router);
   const [loading] = useState(false);
   const defaultValues = {
     email: 'demo@gmail.com',
@@ -44,8 +45,11 @@ export default function UserAuthForm() {
     console.log('data', data);
     router.push('/');
   };
+  console.log('onSubmit: ', onSubmit);
 
-  const [loading1, setLoading1] = useState<Boolean>(false);
+  // const [loading1, setLoading1] = useState<Boolean>(false);
+  // console.log('loading1: ', loading1);
+  const [_, setLoading1] = useState<Boolean>(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

@@ -9,7 +9,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 export default function InpersuNate() {
   const param = useParams();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  // console.log('loading: ', loading);
+  const [_, setLoading] = useState(false);
   const { toast } = useToast();
   const dispatch = useDispatch();
   // interface LoginPayload{

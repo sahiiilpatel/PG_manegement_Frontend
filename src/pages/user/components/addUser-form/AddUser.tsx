@@ -76,8 +76,9 @@ const AddUser = ({
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<any>(null);
-
+  // const [selectedRow, setSelectedRow] = useState<any>(null);
+  // console.log(selectedRow);
+  const [_, setSelectedRow] = useState<any>(null);
   const { toast } = useToast();
 
   // const onClose = () => {

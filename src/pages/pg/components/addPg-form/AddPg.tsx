@@ -70,11 +70,16 @@ const AddPg = ({
 }) => {
   const [selectedType, setSelectedType] =
     useState<React.Dispatch<React.SetStateAction<string>>>();
-  const { data, isLoading }: any = useGetPgList();
+  // const { data, isLoading }: any = useGetPgList();
+  // console.log('data: ', data);
+  const { isLoading }: any = useGetPgList();
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
+  // const [loading, setLoading] = useState<boolean>(false);
+  // console.log('loading: ', loading);
+  const [_, setLoading] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRow, setSelectedRow] = useState<any>(null);
+  console.log('selectedRow: ', selectedRow);
   const { toast } = useToast();
 
   const columns: ColumnDef<any>[] = [
@@ -242,7 +247,7 @@ const AddPg = ({
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            {loading ? (
+            {isLoading ? (
               <div className="flex items-center justify-center">
                 <ClipLoader color="#ffffff" />
               </div>

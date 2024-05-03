@@ -85,7 +85,9 @@ const AddBed = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpneDrawer, setIsOpenDrawer] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedRow, setSelectedRow] = useState<any>(null);
+  // const [selectedRow, setSelectedRow] = useState<any>(null);
+  // console.log('selectedRow: ', selectedRow);
+  const [_, setSelectedRow] = useState<any>(null);
   const [selectedBedRow, setSelectedBedRow] = useState<any>(null);
 
   const { toast } = useToast();
