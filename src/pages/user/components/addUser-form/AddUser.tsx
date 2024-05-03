@@ -17,7 +17,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ToastAction } from '@/components/ui/toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
@@ -80,9 +80,9 @@ const AddUser = ({
 
   const { toast } = useToast();
 
-  const onClose = () => {
-    setIsOpen(false);
-  };
+  // const onClose = () => {
+  //   setIsOpen(false);
+  // };
 
   const columns: ColumnDef<any>[] = [
     // {
@@ -169,7 +169,7 @@ const AddUser = ({
         form.reset();
         setLoading(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: 'destructive',
         title: `${error.message}`,

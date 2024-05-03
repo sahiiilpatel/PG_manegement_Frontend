@@ -45,6 +45,8 @@ export const columns: ColumnDef<Employee>[] = [
   },
   {
     id: 'actions',
-    cell: ({ row }) => <CellAction data={row.original} />
+    cell: ({ row }) => (
+      <CellAction data={row.original} isOpen={true} setIsOpen={() => {}} />
+    )
   }
 ];

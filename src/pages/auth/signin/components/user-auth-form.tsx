@@ -55,7 +55,6 @@ export default function UserAuthForm() {
   }
 
   const loginUser = async (data: LoginData) => {
-    // dispatch(startLoading())
     setLoading1(true);
     try {
       const payload = {
@@ -66,19 +65,14 @@ export default function UserAuthForm() {
       if (response.statusCode === 200) {
         localStorage.setItem('accessToken', response.data.accessToken);
         localStorage.setItem('refreshToken', response.data.refreshToken);
-        // notify("Login SuccessFully","success")
         dispatch(setUserInfo(response.data.user));
-        // dispatch(setAccessToken(response.data.accessToken))
         navigate('/');
-        // formik.resetForm()
       } else {
-        // dispatch(stopLoading())
         setLoading1(false);
       }
     } catch (error) {
       console.log(error);
     } finally {
-      // dispatch(stopLoading())
       setLoading1(false);
     }
   };
@@ -96,10 +90,6 @@ export default function UserAuthForm() {
           'Invalid email address'
         ),
       password: Yup.string().required('Password is required')
-      // .matches(
-      //   /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
-      //   "Password must be at least 8 characters long and contain at least one letter and one number"
-      // )
     }),
     onSubmit: async (props: LoginData) => {
       await loginUser(props);
@@ -131,13 +121,12 @@ export default function UserAuthForm() {
                     disabled={loading}
                     value={formik.values.email}
                     name="email"
-                    validate={{ required: { value: true } }}
+                    // validate={{ required: { value: true } }}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    invalid={
-                      formik.touched.email && formik.errors.email ? true : false
-                    }
-                    // {...field}
+                    // invalid={
+                    //   formik.touched.email && formik.errors.email ? true : false
+                    // }
                   />
                 </FormControl>
                 {formik.touched.email && formik.errors.email ? (
@@ -160,15 +149,14 @@ export default function UserAuthForm() {
                     disabled={loading}
                     value={formik.values.password}
                     name="password"
-                    validate={{ required: { value: true } }}
+                    // validate={{ required: { value: true } }}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-                    invalid={
-                      formik.touched.password && formik.errors.password
-                        ? true
-                        : false
-                    }
-                    // {...field}
+                    // invalid={
+                    //   formik.touched.password && formik.errors.password
+                    //     ? true
+                    //     : false
+                    // }
                   />
                 </FormControl>
                 {formik.touched.password && formik.errors.password ? (

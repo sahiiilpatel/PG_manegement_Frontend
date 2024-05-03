@@ -9,7 +9,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Employee } from '@/constants/data';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
-import { useRouter } from '@/routes/hooks';
+// import { useRouter } from '@/routes/hooks';
 import { useState } from 'react';
 
 interface CellActionProps {
@@ -25,7 +25,7 @@ export const CellAction: React.FC<CellActionProps> = ({
 }) => {
   const [loading] = useState(false);
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
 
   const onConfirm = async () => {};
 

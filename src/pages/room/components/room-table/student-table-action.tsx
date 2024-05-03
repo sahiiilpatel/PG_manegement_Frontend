@@ -1,7 +1,7 @@
-import PopupModal from '@/components/shared/popup-modal';
-import TableSearchInput from '@/components/shared/table-search-input';
-import StudentCreateForm from '../student-forms/student-create-form';
-import AddRoom from '../addRoom-form/AddRoom';
+// import PopupModal from '@/components/shared/popup-modal';
+// import TableSearchInput from '@/components/shared/table-search-input';
+// import StudentCreateForm from '../student-forms/student-create-form';
+// import AddRoom from '../addRoom-form/AddRoom';
 import { SelectType } from '../../SelectType';
 
 interface PgList {

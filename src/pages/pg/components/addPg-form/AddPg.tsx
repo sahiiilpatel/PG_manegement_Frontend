@@ -150,7 +150,7 @@ const AddPg = ({
         setIsOpen(false);
         form.reset();
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: 'destructive',
         title: `${error.message}`,

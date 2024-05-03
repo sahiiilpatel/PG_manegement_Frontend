@@ -1,14 +1,17 @@
-import { addRoom, getRoomListByPgId } from '@/api/room/roomApi';
+import {
+  addRoom
+  //  getRoomListByPgId
+} from '@/api/room/roomApi';
 import Heading from '@/components/shared/heading';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/components/ui/card';
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle
+// } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -17,7 +20,7 @@ import {
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+// import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -28,34 +31,34 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ToastAction } from '@/components/ui/toast';
-import { toast, useToast } from '@/components/ui/use-toast';
+import { toast } from '@/components/ui/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import StudentTableActions from '../room-table/student-table-action';
 import {
-  useGetRoomListByPgId,
+  // useGetRoomListByPgId,
   useRoomDataQuery,
   useRoomListQuery
 } from '../../queries/queries';
-import StudentsTable from '../room-table';
-import { useQuery } from '@tanstack/react-query';
+// import StudentsTable from '../room-table';
+// import { useQuery } from '@tanstack/react-query';
 import { DataTableSkeleton } from '@/components/shared/data-table-skeleton';
 import DataTable from '@/components/shared/data-table';
 import { CellAction } from '../room-table/cell-action';
 import { ColumnDef } from '@tanstack/react-table';
-import PopupModal from '@/components/shared/popup-modal';
-import { Modal } from '@/components/ui/modal';
-import { ScrollArea } from '@/components/ui/scroll-area';
+// import PopupModal from '@/components/shared/popup-modal';
+// import { Modal } from '@/components/ui/modal';
+// import { ScrollArea } from '@/components/ui/scroll-area';
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
+  // DialogDescription,
+  // DialogFooter,
   DialogHeader,
-  DialogTitle,
-  DialogTrigger
+  DialogTitle
+  // DialogTrigger
 } from '@/components/ui/dialog';
 
 const studentFormSchema = z.object({
@@ -102,9 +105,9 @@ const AddRoom = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedRow, setSelectedRow] = useState<any>(null);
 
-  const onClose = () => {
-    setIsOpen(false);
-  };
+  // const onClose = () => {
+  //   setIsOpen(false);
+  // };
 
   const columns: ColumnDef<any>[] = [
     // {
@@ -176,7 +179,7 @@ const AddRoom = ({
         });
         form.reset();
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: 'destructive',
         title: `${error.message}`,
@@ -331,7 +334,7 @@ const AddRoom = ({
                   className="rounded-full "
                   size="lg"
                   onClick={() => {
-                    setSelectedValue();
+                    // setSelectedValue();
                   }}
                 >
                   Cancel

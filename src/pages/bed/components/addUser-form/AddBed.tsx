@@ -33,8 +33,8 @@ import {
 } from '@/components/ui/dialog';
 import { useToast } from '@/components/ui/use-toast';
 import { CellAction } from '../students-table/cell-action';
-import { addUser } from '@/api/user/userApi';
-import { Plus } from 'lucide-react';
+// import { addUser } from '@/api/user/userApi';
+// import { Plus } from 'lucide-react';
 import { formatDate } from 'date-fns';
 import {
   Sheet,
@@ -47,7 +47,20 @@ import { assignBed } from '@/api/bed/bedApi';
 
 const bedFormSchema = z.object({
   rentAmount: z.string().min(1, { message: 'Rent Amount is required' }),
-  depositeAmount: z.string().min(1, { message: 'Deposite Amount is required' })
+  depositeAmount: z.string().min(1, { message: 'Deposite Amount is required' }),
+  fullName: z.string().min(1, { message: 'Full Name is required' }),
+  email: z.string().email({ message: 'Invalid email address' }),
+  age: z.number().int().positive({ message: 'Age must be a positive integer' }),
+  password: z
+    .string()
+    .min(6, { message: 'Password must be at least 6 characters long' }),
+  phoneNumber: z.string().min(10, { message: 'Phone Number is required' }),
+  emergencyContactName: z
+    .string()
+    .min(1, { message: 'Emergency Contact Name is required' }),
+  emergencyContactNo: z
+    .string()
+    .min(10, { message: 'Emergency Contact Number is required' })
 });
 
 type BedFormSchemaType = z.infer<typeof bedFormSchema>;
@@ -65,8 +78,9 @@ const AddBed = ({
   isLoading: boolean;
   userListUnAssign;
 }) => {
-  const [selectedType, setSelectedType] =
-    useState<React.Dispatch<React.SetStateAction<string>>>('');
+  // const [selectedType, setSelectedType] =
+  //   useState<React.Dispatch<React.SetStateAction<string>>>('');
+  const [selectedType, setSelectedType] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpneDrawer, setIsOpenDrawer] = useState<boolean>(false);
@@ -209,7 +223,7 @@ const AddBed = ({
         form.reset();
         setLoading(false);
       }
-    } catch (error) {
+    } catch (error: any) {
       toast({
         variant: 'destructive',
         title: `${error.message}`,
@@ -532,7 +546,7 @@ const AddBed = ({
                               );
                             })
                           ) : (
-                            <SelectItem value={null} disabled>
+                            <SelectItem value="" disabled>
                               {' '}
                               No Data Found
                             </SelectItem>

@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 // import { loadState, saveState } from './localStorage'; // Example localStorage functions
 import rootReducer from './reducer';
-import loggerMiddleware from '../helpers/loggerMiddleware';
+// import loggerMiddleware from '../helpers/loggerMiddleware';
 import { thunk } from 'redux-thunk';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -9,12 +9,12 @@ import storage from 'redux-persist/lib/storage';
 // const preloadedState = loadState();
 
 // Middleware configuration
-const middleware = [
-  loggerMiddleware // Custom logger middleware
-];
+// const middleware = [
+//   loggerMiddleware // Custom logger middleware
+// ];
 
-// Placeholder for enhancers
-const enhancers = [];
+// // Placeholder for enhancers
+// const enhancers = [];
 
 const persistConfig = {
   key: 'root',

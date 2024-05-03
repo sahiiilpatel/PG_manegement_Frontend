@@ -2,11 +2,6 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 
-interface ExtraProps {
-  validate: any;
-  invalid: any;
-}
-
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {}
 

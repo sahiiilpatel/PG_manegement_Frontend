@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import StudentTableActions from './student-table-action';
+// import { useState } from 'react';
+// import StudentTableActions from './student-table-action';
 import AddRoom from '../addRoom-form/AddRoom';
 import { useGetRoomList } from '../../queries/queries';
 
@@ -8,7 +8,7 @@ type TStudentsTableProps = {
 };
 
 export default function StudentsTable({ pgList }: TStudentsTableProps) {
-  const { data, isLoading } = useGetRoomList();
+  const { data } = useGetRoomList();
   // const [selectedValue,setSelectedValue] = useState<React.Dispatch<React.SetStateAction<undefined>>>()
   // console.log(selectedValue,"selectedValue")
   return (

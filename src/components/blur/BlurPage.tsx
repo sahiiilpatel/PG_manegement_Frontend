@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Card,
   CardContent,
@@ -7,7 +7,7 @@ import {
   CardHeader,
   CardTitle
 } from '../ui/card';
-import { BellRing, Check } from 'lucide-react';
+import { Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import Heading from '../shared/heading';
@@ -23,25 +23,20 @@ import {
   DialogHeader,
   DialogTitle
 } from '../ui/dialog';
-import { Label } from '../ui/label';
 import { useSelector } from 'react-redux';
-
 export const BlurPage = (props: any) => {
   const { data, isLoading } = useGetSubscriptionList();
-
   const user = useSelector((state: any) => state?.user?.userInfo);
   const [isOpen, setIsOpen] = useState(false);
-  const [subscriptionData, setSubscriptionData] = useState([]);
+  const [subscriptionData, setSubscriptionData] = useState<any>([]);
 
   const handleChange = () => {
     setIsOpen(false);
   };
 
-  console.log(subscriptionData);
-
   const handlePayment = async () => {
     try {
-      const data = {
+      const data: any = {
         amount: subscriptionData?.price,
         name: user?.fullName,
         planId: subscriptionData?._id
@@ -69,7 +64,7 @@ export const BlurPage = (props: any) => {
           color: '#3399cc'
         }
       };
-      var rzp1 = window.Razorpay(options);
+      var rzp1: any = (window as any).Razorpay(options);
       rzp1.open();
     } catch (error) {
       console.log(error);
@@ -88,7 +83,7 @@ export const BlurPage = (props: any) => {
         </div>
       ) : (
         <div className="flex items-center justify-center gap-4 py-5">
-          {data?.data?.map((res: any, index: number) => {
+          {(data as any)?.data.map((res: any, index: number) => {
             return (
               <Card className={cn('w-screen')} {...props}>
                 <CardHeader>
